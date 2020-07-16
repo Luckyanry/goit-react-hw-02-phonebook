@@ -27,8 +27,14 @@ class App extends Component {
   };
 
   submitHandler = (e) => {
-    const { name, number } = this.state;
+    const { name, number, contacts } = this.state;
     e.preventDefault();
+
+    const isExists = contacts.find((contact) => contact.name === name);
+    if (isExists) {
+      alert(`${name} is already exist in contacts!`);
+      return this.reset();
+    }
 
     const singleContact = {
       name,
@@ -57,7 +63,8 @@ class App extends Component {
     );
   };
 
-  deleteContact = (id) => {
+  deleteContact = ({ target }) => {
+    const { id } = target;
     this.setState((prev) => ({
       contacts: prev.contacts.filter((contact) => contact.id !== id),
     }));
@@ -116,6 +123,14 @@ class App extends Component {
           {filteredContacts.map(({ name, id, number }) => (
             <li className="Contact" key={id}>
               {name}: {number}
+              <button
+                className="DelBtn"
+                type="button"
+                id={id}
+                onClick={this.deleteContact}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
