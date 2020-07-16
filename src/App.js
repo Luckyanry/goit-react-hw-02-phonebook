@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 
-// <li>Rosie Simpson</li>
-// <li>Hermion Kline</li>
-// <li>Eden Clements</li>
-
 class App extends Component {
   formInitialState = {
     name: "",
@@ -13,7 +9,13 @@ class App extends Component {
   };
 
   state = {
-    contacts: [],
+    contacts: [
+      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+    ],
+    filter: "",
     ...this.formInitialState,
   };
 
@@ -48,6 +50,13 @@ class App extends Component {
     }));
   };
 
+  getFilteredContact = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
   deleteContact = (id) => {
     this.setState((prev) => ({
       contacts: prev.contacts.filter((contact) => contact.id !== id),
@@ -55,7 +64,8 @@ class App extends Component {
   };
 
   render() {
-    const { contacts, name, number } = this.state;
+    const { name, number, filter } = this.state;
+    const filteredContacts = this.getFilteredContact();
     return (
       <>
         <h2>Phonebook</h2>
@@ -90,9 +100,21 @@ class App extends Component {
         </form>
 
         <h2>Contacts</h2>
+        <label className="InputName">
+          Find contacts by name
+          <br />
+          <input
+            className="FilterForm"
+            type="text"
+            name="filter"
+            placeholder="Find contact"
+            value={filter}
+            onChange={this.inputHandler}
+          />
+        </label>
         <ul>
-          {contacts.map(({ name, id, number }) => (
-            <li key={id}>
+          {filteredContacts.map(({ name, id, number }) => (
+            <li className="Contact" key={id}>
               {name}: {number}
             </li>
           ))}

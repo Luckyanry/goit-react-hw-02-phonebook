@@ -53,3 +53,14 @@
   height: 20px;
   margin: 10px 0 30px;
 }
+
+.FilterForm {
+  width: 180px;
+  height: 20px;
+  margin: 10px 0 0;
+}
+
+.Contact {
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
